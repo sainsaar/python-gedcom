@@ -608,12 +608,12 @@ class Element:
             return -1
 
     def death(self):
-        """ Return the death tuple of a person as (date,place) """
+        """ Return the death tuple of a person as (date,place,source) """
         date = ""
         place = ""
         source = ()
         if not self.is_individual():
-            return (date,place)
+            return (date,place,source)
         for e in self.children():
             if e.tag() == "DEAT":
                 for c in e.children():
