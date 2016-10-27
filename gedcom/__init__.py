@@ -536,7 +536,7 @@ class Element:
         """ Return if the person is marked private in boolean format """
         private = False
         if not self.is_individual():
-            return gender
+            return private
         for e in self.children():
             if e.tag() == "PRIV":
                 private = e.value()
@@ -545,7 +545,7 @@ class Element:
         return private
 
     def birth(self):
-        """ Return the birth tuple of a person as (date,place) """
+        """ Return the birth tuple of a person as (date,place,source) """
         date = ""
         place = ""
         source = ()
@@ -617,12 +617,12 @@ class Element:
             return -1
 
     def burial(self):
-        """ Return the burial tuple of a person as (date,place) """
+        """ Return the burial tuple of a person as (date,place,source) """
         date = ""
         place = ""
         source = ()
         if not self.is_individual():
-            return (date,place)
+            return (date,place,source)
         for e in self.children():
             if e.tag() == "BURI":
                 for c in e.children():
@@ -667,10 +667,10 @@ class Element:
         return (date)
 
     def occupation(self):
-        """ Return the occupation of a person as (date) """
+        """ Return the occupation of a person """
         occupation = ""
         if not self.is_individual():
-            return (date)
+            return occupation
         for e in self.children():
             if e.tag() == "OCCU":
                 occupation = e.value()
