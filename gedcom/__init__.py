@@ -693,6 +693,22 @@ class Element:
                         date = c.value()
         return (date)
 
+    def last_updated_datetime(self):
+        """ Return the last updated date of a person as (date, time) """
+        date = "1 JAN 0001"
+        time = "00:00:00"
+        if not self.is_individual():
+            return (date, time)
+        for e in self.children():
+            if e.tag() == "CHAN":
+                for c in e.children():
+                    if c.tag() == "DATE":
+                        date = c.value()
+                        for d in c.children():
+                            if d.tag() == "TIME":
+                                time = d.value()
+        return (date, time)
+
     def occupation(self):
         """ Return the occupation of a person """
         occupation = ""
