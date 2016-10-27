@@ -104,7 +104,9 @@ class Gedcom:
         level = int(line_parts[0])
         pointer = line_parts[1].rstrip(' ')
         tag = line_parts[2]
-        value = line_parts[3].lstrip(' ')
+        value = line_parts[3]
+        if value.startswith(' '):
+            value = value[1:] # Strip only one space, not more
 
         # Check level: should never be more than one higher than previous line.
         if level > last_elem.level() + 1:
