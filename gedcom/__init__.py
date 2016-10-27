@@ -68,7 +68,7 @@ class Gedcom:
         return self.__element_top;
 
     def copy_element_and_insert(self, orig, last_elem):
-        if orig.level() > last_elem.level() + 1):
+        if orig.level() > last_elem.level() + 1:
             raise SyntaxError('Level leap when copying')
         new = Element(orig.level(), orig.pointer(), orig.tag(), orig.value())
         self.__element_list.append(new)
@@ -698,13 +698,13 @@ class Element:
         date = "1 JAN 0001"
         time = "00:00:00"
 
-		if self.tag() == "HEAD":
-			for c in self.children():
-				if c.tag() == "DATE":
-					date = c.value()
-					for d in c.children():
-						if d.tag() == "TIME":
-							time = d.value()
+        if self.tag() == "HEAD":
+            for c in self.children():
+                if c.tag() == "DATE":
+                    date = c.value()
+                    for d in c.children():
+                        if d.tag() == "TIME":
+                            time = d.value()
         if not self.is_individual():
             return (date, time)
         for e in self.children():
