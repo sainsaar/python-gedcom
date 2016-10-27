@@ -80,6 +80,7 @@ class Gedcom:
         Each line should have the following (bracketed items optional):
         level + ' ' + [pointer + ' ' +] tag + [' ' + line_value]
         """
+        line = line.lstrip('\uFEFF ') # Forgive Geni its byte order marks and leading spaces
         ged_line_re = (
             # Level must start with nonnegative int, no leading zeros.
             '^(0|[1-9]+[0-9]*) ' +
