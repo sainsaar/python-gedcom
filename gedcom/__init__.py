@@ -694,9 +694,17 @@ class Element:
         return (date)
 
     def last_updated_datetime(self):
-        """ Return the last updated date of a person as (date, time) """
+        """ Return the last updated date of a person or HEAD as (date, time) """
         date = "1 JAN 0001"
         time = "00:00:00"
+
+		if self.tag() == "HEAD":
+			for c in self.children():
+				if c.tag() == "DATE":
+					date = c.value()
+					for d in c.children():
+						if d.tag() == "TIME":
+							time = d.value()
         if not self.is_individual():
             return (date, time)
         for e in self.children():
