@@ -41,12 +41,13 @@ class Gedcom:
       - a dict (only elements with pointers, which are the keys)
     """
 
-    def __init__(self, filepath):
+    def __init__(self, filepath = None):
         """ Initialize a GEDCOM data object. You must supply a Gedcom file."""
         self.__element_list = []
         self.__element_dict = {}
         self.__element_top = Element(-1, "", "TOP", "")
-        self.__parse(filepath)
+        if filepath:
+            self.__parse(filepath)
 
     def element_list(self):
         """ Return a list of all the elements in the Gedcom file.
@@ -62,6 +63,32 @@ class Gedcom:
         The keys for the dictionary are the pointers.
         """
         return self.__element_dict
+
+    def top_element(self):
+        return self.__element_top;
+
+    def copy_element_and_insert(self, orig, last_elem):
+        if orig.level() > last_elem.level() + 1):
+            raise SyntaxError('Level leap when copying')
+        new = Element(orig.level(), orig.pointer(), orig.tag(), orig.value())
+        self.__element_list.append(new)
+        if orig.pointer() != '':
+            self.__element_dict[pointer] = new
+
+        # Start with last element as parent, back up if necessary.
+        parent_elem = last_elem
+        while parent_elem.level() > level - 1:
+            parent_elem = parent_elem.parent()
+        # Add child to parent & parent to child.
+        parent_elem.add_child(new)
+        new.add_parent(parent_elem)
+        return new
+
+    def recursive_copy_and_insert(self, orig, last_elem):
+        last_elem = copy_element_and_insert(orig, last_elem)
+        for child in orig.children():
+            last_elem = recursive_copy_and_insert(child, last_elem)
+        return last_elem
 
     # Private methods
 
