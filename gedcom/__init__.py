@@ -65,7 +65,7 @@ class Gedcom:
         return self.__element_dict
 
     def top_element(self):
-        return self.__element_top;
+        return self.__element_top
 
     def copy_element_and_insert(self, orig, last_elem):
         if orig.level() > last_elem.level() + 1:
@@ -77,7 +77,7 @@ class Gedcom:
 
         # Start with last element as parent, back up if necessary.
         parent_elem = last_elem
-        while parent_elem.level() > level - 1:
+        while parent_elem.level() > orig.level() - 1:
             parent_elem = parent_elem.parent()
         # Add child to parent & parent to child.
         parent_elem.add_child(new)
@@ -85,9 +85,9 @@ class Gedcom:
         return new
 
     def recursive_copy_and_insert(self, orig, last_elem):
-        last_elem = copy_element_and_insert(orig, last_elem)
+        last_elem = self.copy_element_and_insert(orig, last_elem)
         for child in orig.children():
-            last_elem = recursive_copy_and_insert(child, last_elem)
+            last_elem = self.recursive_copy_and_insert(child, last_elem)
         return last_elem
 
     # Private methods
