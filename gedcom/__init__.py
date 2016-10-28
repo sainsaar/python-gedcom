@@ -73,7 +73,7 @@ class Gedcom:
         new = Element(orig.level(), orig.pointer(), orig.tag(), orig.value())
         self.__element_list.append(new)
         if orig.pointer() != '':
-            self.__element_dict[pointer] = new
+            self.__element_dict[orig.pointer()] = new
 
         # Start with last element as parent, back up if necessary.
         parent_elem = last_elem
